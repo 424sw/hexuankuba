@@ -1,38 +1,86 @@
 /**
  * 核心逻辑系统 - 从后端API加载数据
  */
+// 在文件开头添加
+const SAFETY_TIMEOUT = 5000; // 5秒超时
 
-// 全局变量，将从后端API加载
-let database = {
-    movies: [], anime: [], games: [], study: [], shortDrama: [], other: []
-};
-
-// 从后端API加载数据的函数
-// 修改数据加载函数
+// 修改 loadDataFromBackend 函数
 async function loadDataFromBackend() {
     try {
-        console.log('🔍🔍 正在从后端加载数据...');
+        console.log('📥 开始加载数据...');
         
-        // 使用相对路径，Vercel会自动处理
-        const response = await fetch('/api/data');
+        // 使用Promise.race添加超时控制
+        const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('API请求超时')), SAFETY_TIMEOUT);
+        });
+        
+        const fetchPromise = fetch('/api/data');
+        
+        const response = await Promise.race([fetchPromise, timeoutPromise]);
         
         if (!response.ok) {
+            console.warn(`API响应状态: ${response.status}`);
             throw new Error(`HTTP错误: ${response.status}`);
         }
         
         const data = await response.json();
         
-        // 更新全局数据库
-        Object.assign(database, data);
+        // 检查是否有数据
+        if (!data || typeof data !== 'object') {
+            throw new Error('API返回无效数据');
+        }
+        
+        // 合并数据，确保每个分类都有数组
+        ['movies', 'anime', 'games', 'study', 'shortDrama', 'other'].forEach(category => {
+            database[category] = Array.isArray(data[category]) ? data[category] : [];
+        });
         
         console.log('✅ 数据加载成功！');
+        
+        // 显示统计数据
+        const total = Object.values(database).reduce((sum, arr) => sum + arr.length, 0);
+        console.log(`📊 总计: ${total} 个项目`);
+        
         return true;
         
     } catch (error) {
-        console.error('❌❌ 从后端加载数据失败:', error);
-        // 可以添加一些默认数据作为fallback
+        console.error('❌ 加载数据失败:', error.message);
+        console.log('🔄 使用安全模式...');
+        
+        // 使用最小的回退数据
+        useFallbackData();
         return false;
     }
+}
+
+// 安全回退数据
+function useFallbackData() {
+    const fallbackData = {
+        movies: [{ title: "示例资源", url: "#", image: "", tags: ["示例"] }],
+        anime: [],
+        games: [],
+        study: [],
+        shortDrama: [],
+        other: []
+    };
+    
+    Object.assign(database, fallbackData);
+    
+    // 显示提示信息
+    const message = document.createElement('div');
+    message.style.cssText = `
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 10px 0;
+        color: #856404;
+        font-size: 14px;
+    `;
+    message.innerHTML = '⚠️ 数据加载中，显示示例内容...';
+    document.body.prepend(message);
+    
+    setTimeout(() => message.remove(), 5000);
 }
 
 
