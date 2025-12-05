@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世二库吧</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 主页视图 -->
+    <div id="home-view">
+        <header class="main-header">
+            <h1>世二库吧</h1>
+            <div class="intro-section">
+                <p>汇聚影视、动漫、游戏、学习等众多资源。<br>很不错的网站吧......应该是...</p>
+            </div>
+            <div class="search-box-wrapper global-search-box">
+                <input type="text" id="global-search-input" placeholder="搜索影视、动漫、游戏...">
+                <button id="global-search-btn">🔍</button>
+            </div>
+        </header>
+
+        <!-- 弹幕栏 -->
+        <div class="danmaku-container-wrapper">
+            <div class="danmaku-mask"></div>
+            <div class="danmaku-container" id="danmaku-container">
+                <div class="danmaku-row">
+                    <div class="danmaku-track" id="danmaku-track-1"></div>
+                </div>
+                <div class="danmaku-row">
+                    <div class="danmaku-track" id="danmaku-track-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <main class="container home-container">
+            <div class="module-grid">
+                <!-- 影视模块 -->
+                <div class="module-card movie-theme js-nav-card" data-target="movies">
+                    <div class="card-header">
+                        <span class="icon">🎬</span> 影视大片
+                    </div>
+                    <div class="card-content">
+                        最新院线、高分经典等等。
+                    </div>
+                    <div class="hot-search-section" data-category="movies">
+                        <h4>影视热搜榜</h4>
+                        <div class="hot-search-list" id="movies-hot-search"></div>
+                    </div>
+                </div>
+
+                <!-- 动漫模块 -->
+                <div class="module-card anime-theme js-nav-card" data-target="anime">
+                    <div class="card-header">
+                        <span class="icon">📺</span> 二次元动漫
+                    </div>
+                    <div class="card-content">
+                        热血日漫、国创精品等等。
+                    </div>
+                    <div class="hot-search-section" data-category="anime">
+                        <h4>动漫热搜榜</h4>
+                        <div class="hot-search-list" id="anime-hot-search"></div>
+                    </div>
+                </div>
+
+                <!-- 短剧模块 -->
+                <div class="module-card short-drama-theme js-nav-card" data-target="shortDrama">
+                    <div class="card-header">
+                        <span class="icon">🎭</span> 精品短剧
+                    </div>
+                    <div class="card-content">
+                        短视频、微电影、网络短剧等等。
+                    </div>
+                    <div class="hot-search-section" data-category="shortDrama">
+                        <h4>短剧热搜榜</h4>
+                        <div class="hot-search-list" id="shortDrama-hot-search"></div>
+                    </div>
+                </div>
+
+                <!-- 游戏模块 -->
+                <div class="module-card game-theme js-nav-card" data-target="games">
+                    <div class="card-header">
+                        <span class="icon">🎮</span> 热门游戏
+                    </div>
+                    <div class="card-content">
+                        休闲小游戏、模拟生存、Steam游戏等等。
+                    </div>
+                    <div class="hot-search-section" data-category="games">
+                        <h4>游戏热搜榜</h4>
+                        <div class="hot-search-list" id="games-hot-search"></div>
+                    </div>
+                </div>
+
+                <!-- 学习资料模块 -->
+                <div class="module-card study-theme js-nav-card" data-target="study">
+                    <div class="card-header">
+                        <span class="icon">📚</span> 学习资料
+                    </div>
+                    <div class="card-content">
+                        编程教程、设计资源、知识分享等等。
+                    </div>
+                    <div class="hot-search-section" data-category="study">
+                        <h4>学习热搜榜</h4>
+                        <div class="hot-search-list" id="study-hot-search"></div>
+                    </div>
+                </div>
+
+                <!-- 其他模块 -->
+                <div class="module-card other-theme js-nav-card" data-target="other">
+                    <div class="card-header">
+                        <span class="icon">🔮</span> 其他资源
+                    </div>
+                    <div class="card-content">
+                        更多资源、软件等等。
+                    </div>
+                    <div class="hot-search-section" data-category="other">
+                        <h4>其他热搜榜</h4>
+                        <div class="hot-search-list" id="other-hot-search"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 免责声明 -->
+        <footer class="disclaimer-section">
+            <div class="intro-section">
+                <p><b>免责声明：<br>本站仅进行资源分享，内容均来自网络<br>如有侵权请联系我们进行删除</b><br><br>邮箱：hexuan11924@126.com<br>（如有建议或反馈，也可联系我们修改调整）</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 列表页视图 -->
+    <div id="list-view" class="hidden">
+        <header id="list-view-header" class="page-header">
+            <div class="page-header-content">
+                <div class="page-title-area">
+                    <button id="back-to-home-btn">← 返回首页</button>
+                    <h2 id="list-view-title">分类标题</h2>
+                </div>
+                <div class="local-search-area" id="local-search-area">
+                    <div class="search-box-wrapper local-search-box">
+                        <!-- 确保placeholder文字为"在本库内筛选" -->
+                        <input type="text" id="local-search-input" placeholder="在本库内筛选">
+                        <button>🔍</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container list-container">
+            <div class="content-grid" id="content-grid-container"></div>
+        </main>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>

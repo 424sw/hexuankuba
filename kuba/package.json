@@ -1,0 +1,14 @@
+{
+  "name": "resource-library",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo '构建完成'"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vercel/node": "^2.0.0"
+  }
+}
